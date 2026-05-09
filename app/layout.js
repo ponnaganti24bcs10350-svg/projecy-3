@@ -8,12 +8,12 @@ const inter = Inter({
 });
 
 export const metadata = {
-  title: "NotebookLM — Chat with Your Documents",
+  title: "NotebookLM — RAG Document Chat",
   description:
-    "Upload any PDF or text file and have an intelligent, grounded conversation with it. Powered by OpenAI and Qdrant vector search.",
+    "Upload any PDF or text file and chat with it using AI grounded in your document. Built with RAG, Qdrant vector search, and Gemma AI.",
   keywords: ["RAG", "AI", "document chat", "NotebookLM", "PDF chat"],
   openGraph: {
-    title: "NotebookLM — Chat with Your Documents",
+    title: "NotebookLM — RAG Document Chat",
     description:
       "Upload any PDF or text file and have an intelligent, grounded conversation with it.",
     type: "website",

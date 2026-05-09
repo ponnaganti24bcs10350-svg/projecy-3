@@ -238,12 +238,16 @@ export default function HomePage() {
                 <span className="stat-value">{totalChunks}</span>
               </div>
               <div className="stat-item">
-                <span className="stat-label">Model</span>
-                <span className="stat-value">gpt-4.1-mini</span>
+                <span className="stat-label">LLM</span>
+                <span className="stat-value">Gemma 4 26B</span>
               </div>
               <div className="stat-item">
                 <span className="stat-label">Embedding</span>
-                <span className="stat-value">3-large</span>
+                <span className="stat-value">MiniLM-L6</span>
+              </div>
+              <div className="stat-item">
+                <span className="stat-label">Vector DB</span>
+                <span className="stat-value">Qdrant</span>
               </div>
             </div>
           )}
