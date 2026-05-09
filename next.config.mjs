@@ -3,9 +3,6 @@ const nextConfig = {
   // Turbopack config (Next.js 16+)
   turbopack: {},
 
-  // Run @xenova/transformers natively in Node.js — don't bundle it
-  serverExternalPackages: ["@huggingface/transformers"],
-
   // Increase serverless function body size limit for file uploads
   experimental: {
     serverActions: {
