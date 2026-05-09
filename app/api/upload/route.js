@@ -11,15 +11,17 @@
 
 import { NextResponse } from "next/server";
 import { ingestDocument } from "@/lib/rag";
+import { extractText, getDocumentProxy } from "unpdf";
 
 export const runtime = "nodejs";
-export const maxDuration = 300; // 5 minutes for large documents
+export const maxDuration = 300;
 
-// Parse PDF bytes using pdf-parse (lazy import to avoid edge runtime issues)
 async function extractTextFromPDF(buffer) {
-  const pdfParse = (await import("pdf-parse/lib/pdf-parse.js")).default;
-  const data = await pdfParse(buffer);
-  return data.text;
+  const uint8 = new Uint8Array(buffer);
+  // unpdf requires a document proxy — pass that to extractText
+  const pdf = await getDocumentProxy(uint8);
+  const { text } = await extractText(pdf, { mergePages: true });
+  return text ?? "";
 }
 
 export async function POST(request) {
@@ -43,12 +45,12 @@ export async function POST(request) {
     let text = "";
 
     // ── Text Extraction ──────────────────────────────────────────────────────
-    if (fileType === "application/pdf" || fileName.endsWith(".pdf")) {
+    if (fileType === "application/pdf" || fileName.toLowerCase().endsWith(".pdf")) {
       text = await extractTextFromPDF(buffer);
     } else if (
       fileType === "text/plain" ||
-      fileName.endsWith(".txt") ||
-      fileName.endsWith(".md")
+      fileName.toLowerCase().endsWith(".txt") ||
+      fileName.toLowerCase().endsWith(".md")
     ) {
       text = buffer.toString("utf-8");
     } else {
@@ -58,7 +60,7 @@ export async function POST(request) {
       );
     }
 
-    if (!text || text.trim().length < 50) {
+    if (!text || text.trim().length < 10) {
       return NextResponse.json(
         { error: "Could not extract meaningful text from the document." },
         { status: 400 }
